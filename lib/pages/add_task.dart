@@ -422,7 +422,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
             padding: EdgeInsets.symmetric(vertical: 10.0),
             width: double.infinity,
             color: Colors.black,
-            child: Text(widget.task == null ? 'Create Now' : 'Save Now',
+            child: Text(widget.task == null ? 'Create Now' : 'Save',
                 style: TextStyle(color: Colors.white, fontSize: 20.0)),
           ),
         ));
