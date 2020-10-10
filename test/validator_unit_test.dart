@@ -1,5 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_todolist/pages/add_task.dart';
+import 'package:flutter_todolist/validator/end_date_field_validator.dart';
+import 'package:flutter_todolist/validator/start_date_field_validator.dart';
+import 'package:flutter_todolist/validator/text_field_validator.dart';
 
 void main() {
   test('empty text field returns error string', () {

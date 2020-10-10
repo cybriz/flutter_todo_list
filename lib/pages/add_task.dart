@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_todolist/validator/end_date_field_validator.dart';
+import 'package:flutter_todolist/validator/start_date_field_validator.dart';
+import 'package:flutter_todolist/validator/text_field_validator.dart';
 import 'package:moor_flutter/moor_flutter.dart' as moor;
 import '../database/database.dart';
 import 'package:intl/intl.dart';
@@ -7,27 +10,6 @@ import 'package:intl/intl.dart';
 TextEditingController _textFieldController;
 TextEditingController _dueDateFieldController;
 TextEditingController _startDateFieldController;
-
-class TextFieldValidator {
-  static String validate(String value) {
-    if (value.isEmpty) return 'Text field can\'t be empty';
-    if (value.length > 50) return 'Text field can\'t be more than 50 words';
-    return null;
-  }
-}
-
-class StartDateFieldValidator {
-  static String validate(String value) {
-    return value.isEmpty ? 'Start date field can\'t be empty' : null;
-  }
-}
-
-class EndDateFieldValidator {
-  static String validate(String value) {
-    if (value.isEmpty) return 'End date field can\'t be empty';
-    return null;
-  }
-}
 
 class AddTaskPage extends StatefulWidget {
   final BuildContext context;
