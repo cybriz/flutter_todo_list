@@ -8,6 +8,7 @@ A Flutter To-Do list app project.
 - flutter run
 
 ## Concepts
+- Kiwi for inversion of control(ioC) pattern in flutter.
 - Lint for code to ensure high code quality and reduce the likelihood that changes inadvertently break something. 
 - Provider for simple state management.
 - Stream builder for reactive data.
