@@ -29,3 +29,6 @@ RUNNER(ios): https://drive.google.com/file/d/1XdmIAyK42pZYTpdapjt6l7M7Zohcj95y/v
 
 - [Integration Test] Please copy paste the command below in the terminal in order to run the integration test.
 - flutter drive --target=test_driver/app.dart
+
+## Screenshots
+![](screenshots/codemagic_CICD.png)
