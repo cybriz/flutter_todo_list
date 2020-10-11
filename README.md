@@ -1,16 +1,27 @@
-# flutter_todolist
-
-A new Flutter project.
+## flutter_todolist
+A Flutter To-Do list app project.
 
 ## Getting Started
+- git clone 'https://github.com/cybriz/flutter_todo_list.git' flutter_todo_list
+- flutter create --androidx .If android or ios folders aren't present.
+- flutter packages get or flutter pub get
+- flutter run
 
-This project is a starting point for a Flutter application.
+## Concepts
+- Lint for code to ensure high code quality and reduce the likelihood that changes inadvertently break something. 
+- Provider for simple state management.
+- Stream builder for reactive data.
+- SQLite for persistence.
+- Uses Moor as an abstraction layer on top of SQFlite to perform write queries and update streams in this project.
 
-A few resources to get you started if this is your first Flutter project:
+## Install demo app into your own phone
+- Tap the 'apk' file for android and 'runner' file for ios
+- Click 'install' and then 'install anyway'
+- click 'Done'
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Run Test
+- [Unit Test] Go to the project directory, under 'test/validator_unit_test.dart and click 'Run' above each function 
+   to run the unit test.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- [Integration Test] Please copy paste the command below in the terminal in order to run the integration test.
+- flutter drive --target=test_driver/app.dart
