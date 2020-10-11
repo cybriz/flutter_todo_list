@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_todolist/common/styles.dart';
+import 'package:flutter_todolist/common/tools.dart';
 import 'package:flutter_todolist/validator/end_date_field_validator.dart';
 import 'package:flutter_todolist/validator/start_date_field_validator.dart';
 import 'package:flutter_todolist/validator/text_field_validator.dart';
 import 'package:moor_flutter/moor_flutter.dart' as moor;
 import '../database/database.dart';
-import 'package:intl/intl.dart';
 
-TextEditingController _textFieldController;
-TextEditingController _dueDateFieldController;
-TextEditingController _startDateFieldController;
-
+// ignore: must_be_immutable
 class AddTaskPage extends StatefulWidget {
   final BuildContext context;
   final AppDatabase db;
-  DateTime today;
+  final DateTime today;
   DateTime dueDate;
   DateTime startDate;
   Task task;
@@ -36,10 +34,9 @@ class AddTaskPage extends StatefulWidget {
 class _AddTaskPageState extends State<AddTaskPage> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   DateTime startDate;
-
-  String getDateAndTime(DateTime value) {
-    return '${DateFormat.d().format(value)} ${DateFormat.MMM().format(value)} ${DateFormat.y().format(value)}, ${DateFormat.Hm().format(value)}';
-  }
+  TextEditingController _textFieldController;
+  TextEditingController _dueDateFieldController;
+  TextEditingController _startDateFieldController;
 
   bool validateAndSave() {
     final FormState form = formKey.currentState;
@@ -62,10 +59,10 @@ class _AddTaskPageState extends State<AddTaskPage> {
           _startDateFieldController.text = widget.task.name;
 
       _startDateFieldController.text =
-          getDateAndTime(widget.task.startDate).toString();
+          Tools.getDateAndTime(widget.task.startDate).toString();
 
       _dueDateFieldController.text =
-          getDateAndTime(widget.task.dueDate).toString();
+          Tools.getDateAndTime(widget.task.dueDate).toString();
     }
   }
 
@@ -78,7 +75,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
             alignment: Alignment.centerLeft,
             child: Text(
               widget.task == null ? "Add new To-Do List" : "Edit To-Do List",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              style: kAppBarStyle,
             ),
           ),
         ),
@@ -89,18 +86,14 @@ class _AddTaskPageState extends State<AddTaskPage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                // TO DO TITLE
+                // TO-DO TITLE
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                   width: double.infinity,
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'To-Do Title',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.black54,
-                    ),
+                    style: kTitleStyle,
                   ),
                 ),
                 Container(
@@ -121,16 +114,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
                           autofocus: true,
                           keyboardType: TextInputType.text,
                           validator: TextFieldValidator.validate,
-                          style: TextStyle(
-                              fontSize: 12, fontWeight: FontWeight.w400),
+                          style: kTextField,
                           maxLines: 5,
                           decoration: InputDecoration.collapsed(
                               hintText: "Please key in your To-Do title here",
-                              hintStyle: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                color: Color(0xffA1A1A1),
-                              )),
+                              hintStyle: kPlaceholderStyle),
                           onChanged: (value) {
                             if (value.isNotEmpty) {
                               validateAndSave();
@@ -146,11 +134,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Start Date',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.black54,
-                    ),
+                    style: kTitleStyle,
                   ),
                 ),
                 InkWell(
@@ -187,7 +171,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                           widget.startDate = DateTime(due.year, due.month,
                               due.day, time.hour, time.minute);
                           _startDateFieldController.text =
-                              getDateAndTime(widget.startDate).toString();
+                              Tools.getDateAndTime(widget.startDate).toString();
                           validateAndSave();
                         });
                       } else {
@@ -195,7 +179,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                           widget.startDate =
                               DateTime(due.year, due.month, due.day);
                           _startDateFieldController.text =
-                              getDateAndTime(widget.startDate).toString();
+                              Tools.getDateAndTime(widget.startDate).toString();
                           validateAndSave();
                         });
                       }
@@ -233,11 +217,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                                           enabledBorder: InputBorder.none,
                                           errorBorder: InputBorder.none,
                                           disabledBorder: InputBorder.none,
-                                          hintStyle: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w400,
-                                            color: Color(0xffA1A1A1),
-                                          )),
+                                          hintStyle: kPlaceholderStyle),
                                     ),
                                   ),
                                 ),
@@ -257,11 +237,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Estimate End Date',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.black54,
-                    ),
+                    style: kTitleStyle,
                   ),
                 ),
                 InkWell(
@@ -298,7 +274,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                           widget.dueDate = DateTime(due.year, due.month,
                               due.day, time.hour, time.minute);
                           _dueDateFieldController.text =
-                              getDateAndTime(widget.dueDate).toString();
+                              Tools.getDateAndTime(widget.dueDate).toString();
                           validateAndSave();
                         });
                       } else {
@@ -308,7 +284,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
 
                           setDueDate = DateTime(due.year, due.month, due.day);
                           _dueDateFieldController.text =
-                              getDateAndTime(setDueDate).toString();
+                              Tools.getDateAndTime(setDueDate).toString();
                           validateAndSave();
                         });
                       }
@@ -345,11 +321,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                                           errorBorder: InputBorder.none,
                                           disabledBorder: InputBorder.none,
                                           hintText: "Select a date",
-                                          hintStyle: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w400,
-                                            color: Color(0xffA1A1A1),
-                                          )),
+                                          hintStyle: kPlaceholderStyle),
                                     ),
                                   ),
                                 ),

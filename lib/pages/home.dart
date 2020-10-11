@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todolist/common/styles.dart';
 import 'package:flutter_todolist/pages/tasks.dart';
 
 class HomePage extends StatelessWidget {
@@ -11,7 +12,7 @@ class HomePage extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: Text(
               "${"To-Do List"}",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              style: kAppBarStyle,
             ),
           ),
         ),

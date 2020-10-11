@@ -1,16 +1,10 @@
 import 'dart:async';
-import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_todolist/common/tools.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_todolist/database/database.dart';
 import 'package:flutter_todolist/widgets/checkbox.dart';
 import 'add_task.dart';
-
-TextEditingController _taskFieldController;
-DateTime _today;
-DateTime _dueDate;
-DateTime _startDate;
-Timer _timer;
 
 class TasksPage extends StatefulWidget {
   @override
@@ -18,6 +12,12 @@ class TasksPage extends StatefulWidget {
 }
 
 class _TasksPageState extends State<TasksPage> {
+  TextEditingController _taskFieldController;
+  DateTime _today;
+  DateTime _dueDate;
+  DateTime _startDate;
+  Timer _timer;
+
   @override
   void initState() {
     super.initState();
@@ -36,28 +36,6 @@ class _TasksPageState extends State<TasksPage> {
         _today = DateTime.now();
       });
     }
-  }
-
-  String getTimeString(int value) {
-    final int hour = value ~/ 60;
-    final int minutes = value % 60;
-
-    return '${hour.toString().padLeft(2, "0")} hrs ${minutes.toString().padLeft(2, "0")} min';
-  }
-
-  String getCurrentDate(DateTime value) {
-    final date = value.toString();
-
-    final dateParse = DateTime.parse(date);
-
-    final formattedDate =
-        "${dateParse.day}-${dateParse.month}-${dateParse.year}";
-
-    return formattedDate.toString();
-  }
-
-  String formattedDate(DateTime date) {
-    return '${DateFormat.d().format(date)} ${DateFormat.MMM().format(date)} ${DateFormat.y().format(date)}';
   }
 
   @override
@@ -152,7 +130,7 @@ class _TasksPageState extends State<TasksPage> {
                                                     fontSize: 14,
                                                     color: Colors.grey),
                                               ),
-                                              Text(formattedDate(snapshot
+                                              Text(Tools.formattedDate(snapshot
                                                   .data[index].startDate)),
                                             ],
                                           ),
@@ -169,7 +147,7 @@ class _TasksPageState extends State<TasksPage> {
                                                   style: TextStyle(
                                                       fontSize: 14,
                                                       color: Colors.grey)),
-                                              Text(formattedDate(snapshot
+                                              Text(Tools.formattedDate(snapshot
                                                   .data[index].dueDate)),
                                             ],
                                           ),
@@ -187,7 +165,6 @@ class _TasksPageState extends State<TasksPage> {
                                                       fontSize: 14,
                                                       color: Colors.grey)),
                                               Container(
-                                                height: 18,
                                                 width: MediaQuery.of(context)
                                                         .size
                                                         .width *
@@ -219,7 +196,7 @@ class _TasksPageState extends State<TasksPage> {
                                                                 .inHours >
                                                             0) {
                                                           return Text(
-                                                              "${getTimeString(_due.inMinutes)}");
+                                                              "${Tools.getTimeString(_due.inMinutes)}");
                                                         } else {
                                                           return Text(
                                                               "Due today");
