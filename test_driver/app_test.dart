@@ -79,6 +79,11 @@ void main() {
       await driver.tap(find.text('OK'));
       await Future.delayed(Duration(seconds: 1));
       await driver.tap(create);
+
+      await Future.delayed(Duration(seconds: 1));
+      await driver.scroll(card, -400, 0, Duration(milliseconds: 500));
+      await Future.delayed(Duration(seconds: 1));
+      await driver.tap(find.text('Undo'));
     });
   });
 }
