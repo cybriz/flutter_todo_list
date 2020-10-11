@@ -38,7 +38,7 @@ class TwelveFormatTime {
         return hour = 12;
         break;
       default:
-        return hour = 1;
+        return hour;
         break;
     }
   }
