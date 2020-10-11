@@ -19,9 +19,10 @@ APK(android): https://drive.google.com/file/d/1PHcM9Rn3OPA66A2Cg7ddfsh5ezVGxuiS/
 
 RUNNER(ios): https://drive.google.com/file/d/1XdmIAyK42pZYTpdapjt6l7M7Zohcj95y/view?usp=sharing
 
-- Tap the 'apk' file for android and 'runner' file for ios
-- Click 'install' and then 'install anyway'
-- click 'Done'
+- Download the apk using phone default Package Installer.
+- Tap the 'apk' file for android and 'runner' file for ios.
+- Click 'install' and then 'install anyway'.
+- Click 'Done' or 'Open' to proceed.
 
 ## Run Test
 - [Unit Test] Go to the project directory, under 'test/validator_unit_test.dart and click 'Run' above each function 
@@ -31,4 +32,5 @@ RUNNER(ios): https://drive.google.com/file/d/1XdmIAyK42pZYTpdapjt6l7M7Zohcj95y/v
 - flutter drive --target=test_driver/app.dart
 
 ## Screenshots
+- CICD image
 ![](screenshots/codemagic_CICD.png)
