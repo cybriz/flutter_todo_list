@@ -8,7 +8,7 @@ A Flutter To-Do list app project.
 - flutter run
 
 ## Concepts
-- VSCode for building this flutter To-Do list app project.
+- Uses VSCode editor to build this flutter To-Do list app project.
 - Kiwi for inversion of control(ioC) pattern in flutter.
 - Lint for code to ensure high code quality and reduce the likelihood that changes inadvertently break something. 
 - Provider for simple state management.
@@ -31,9 +31,8 @@ RUNNER(ios): https://drive.google.com/file/d/1XdmIAyK42pZYTpdapjt6l7M7Zohcj95y/v
    to run the unit test. The result will be shown in the terminal.
 ![](screenshots/unit_test.png)
 
-- [Integration Test] Please copy paste the command below in the terminal in order to run the integration test.
-- flutter drive --target=test_driver/app.dart
+- [Integration Test] Copy paste and enter (flutter drive --target=test_driver/app.dart) command in the terminal in order to run the integration test.
 
 ## Screenshots
-- CICD image
+- Uses Codemagic CI/CD
 ![](screenshots/codemagic_CICD.png)
