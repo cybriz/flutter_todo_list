@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_todolist/common/styles.dart';
 import 'package:flutter_todolist/common/tools.dart';
 import 'package:flutter_todolist/validator/end_date_field_validator.dart';
 import 'package:flutter_todolist/validator/start_date_field_validator.dart';
 import 'package:flutter_todolist/validator/text_field_validator.dart';
+import 'package:flutter_todolist/widgets/noKeyboardEditableTextFocusNode.dart';
 import 'package:moor_flutter/moor_flutter.dart' as moor;
 import '../database/database.dart';
 
@@ -79,114 +79,27 @@ class _AddTaskPageState extends State<AddTaskPage> {
             ),
           ),
         ),
-        body: Form(
-          key: formKey,
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 20.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                // TO-DO TITLE
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                  width: double.infinity,
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'To-Do Title',
-                    style: kTitleStyle,
+        body: GestureDetector(
+          onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+          child: Form(
+            key: formKey,
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 20.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  // TO-DO TITLE
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                    width: double.infinity,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'To-Do Title',
+                      style: kTitleStyle,
+                    ),
                   ),
-                ),
-                Container(
-                  height: 120,
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: Card(
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                          side: BorderSide(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(4.0)),
-                      color: Colors.white,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 15.0, vertical: 10.0),
-                        child: TextFormField(
-                          key: Key('text'),
-                          controller: _textFieldController,
-                          autofocus: true,
-                          keyboardType: TextInputType.text,
-                          validator: TextFieldValidator.validate,
-                          style: kTextField,
-                          maxLines: 5,
-                          decoration: InputDecoration.collapsed(
-                              hintText: "Please key in your To-Do title here",
-                              hintStyle: kPlaceholderStyle),
-                          onChanged: (value) {
-                            if (value.isNotEmpty) {
-                              validateAndSave();
-                            }
-                          },
-                        ),
-                      )),
-                ),
-                //START DATE
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                  width: double.infinity,
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Start Date',
-                    style: kTitleStyle,
-                  ),
-                ),
-                InkWell(
-                  key: Key('startDate'),
-                  onTap: () async {
-                    final DateTime due = await showDatePicker(
-                      context: context,
-                      firstDate: DateTime(
-                        widget.today.year,
-                        widget.today.month,
-                        widget.today.day,
-                      ),
-                      lastDate: DateTime(widget.today.year + 2, 12, 31),
-                      initialDate: widget.task?.startDate ?? widget.today,
-                      builder: (BuildContext context, Widget child) {
-                        return Theme(
-                          data: ThemeData.light(),
-                          child: child,
-                        );
-                      },
-                    );
-
-                    if (due != null) {
-                      final TimeOfDay time = await showTimePicker(
-                        context: context,
-                        initialTime: TimeOfDay(
-                          hour: TimeOfDay.now().hour + 1,
-                          minute: 00,
-                        ),
-                      );
-
-                      if (time != null) {
-                        setState(() {
-                          widget.startDate = DateTime(due.year, due.month,
-                              due.day, time.hour, time.minute);
-                          _startDateFieldController.text =
-                              Tools.getDateAndTime(widget.startDate).toString();
-                          validateAndSave();
-                        });
-                      } else {
-                        setState(() {
-                          widget.startDate =
-                              DateTime(due.year, due.month, due.day);
-                          _startDateFieldController.text =
-                              Tools.getDateAndTime(widget.startDate).toString();
-                          validateAndSave();
-                        });
-                      }
-                    }
-                  },
-                  child: Container(
-                    height: 60,
+                  Container(
+                    height: 120,
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     child: Card(
                         elevation: 0,
@@ -194,147 +107,236 @@ class _AddTaskPageState extends State<AddTaskPage> {
                             side: BorderSide(color: Colors.grey),
                             borderRadius: BorderRadius.circular(4.0)),
                         color: Colors.white,
-                        child: Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.symmetric(horizontal: 15.0),
-                          child: IgnorePointer(
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    alignment: Alignment.centerLeft,
-                                    child: TextFormField(
-                                      controller: _startDateFieldController,
-                                      validator:
-                                          StartDateFieldValidator.validate,
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400),
-                                      decoration: InputDecoration(
-                                          hintText: "Select a date",
-                                          border: InputBorder.none,
-                                          focusedBorder: InputBorder.none,
-                                          enabledBorder: InputBorder.none,
-                                          errorBorder: InputBorder.none,
-                                          disabledBorder: InputBorder.none,
-                                          hintStyle: kPlaceholderStyle),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                    width: 30,
-                                    child: Icon(Icons.arrow_drop_down)),
-                              ],
-                            ),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 15.0, vertical: 10.0),
+                          child: TextFormField(
+                            key: Key('text'),
+                            focusNode: NoKeyboardEditableTextFocusNode(),
+                            autofocus: true,
+                            controller: _textFieldController,
+                            validator: TextFieldValidator.validate,
+                            style: kTextField,
+                            maxLines: 5,
+                            decoration: InputDecoration.collapsed(
+                                hintText: "Please key in your To-Do title here",
+                                hintStyle: kPlaceholderStyle),
+                            onChanged: (value) {
+                              if (value.isNotEmpty) {
+                                validateAndSave();
+                              }
+                            },
                           ),
                         )),
                   ),
-                ),
-                // END DATE
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                  width: double.infinity,
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Estimate End Date',
-                    style: kTitleStyle,
+                  //START DATE
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                    width: double.infinity,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Start Date',
+                      style: kTitleStyle,
+                    ),
                   ),
-                ),
-                InkWell(
-                  key: Key('endDate'),
-                  onTap: () async {
-                    final DateTime due = await showDatePicker(
-                      context: context,
-                      firstDate: DateTime(
-                        widget.today.year,
-                        widget.today.month,
-                        widget.today.day,
-                      ),
-                      lastDate: DateTime(widget.today.year + 2, 12, 31),
-                      initialDate: widget.task?.dueDate ?? widget.today,
-                      builder: (BuildContext context, Widget child) {
-                        return Theme(
-                          data: ThemeData.light(),
-                          child: child,
-                        );
-                      },
-                    );
-
-                    if (due != null) {
-                      final TimeOfDay time = await showTimePicker(
+                  InkWell(
+                    key: Key('startDate'),
+                    onTap: () async {
+                      final DateTime due = await showDatePicker(
                         context: context,
-                        initialTime: TimeOfDay(
-                          hour: TimeOfDay.now().hour + 1,
-                          minute: 00,
+                        firstDate: DateTime(
+                          widget.today.year,
+                          widget.today.month,
+                          widget.today.day,
                         ),
+                        lastDate: DateTime(widget.today.year + 2, 12, 31),
+                        initialDate: widget.task?.startDate ?? widget.today,
+                        builder: (BuildContext context, Widget child) {
+                          return Theme(
+                            data: ThemeData.light(),
+                            child: child,
+                          );
+                        },
                       );
 
-                      if (time != null) {
-                        setState(() {
-                          widget.dueDate = DateTime(due.year, due.month,
-                              due.day, time.hour, time.minute);
-                          _dueDateFieldController.text =
-                              Tools.getDateAndTime(widget.dueDate).toString();
-                          validateAndSave();
-                        });
-                      } else {
-                        setState(() {
-                          DateTime setDueDate =
-                              widget.task?.dueDate ?? widget.dueDate;
+                      if (due != null) {
+                        final TimeOfDay time = await showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay(
+                            hour: TimeOfDay.now().hour + 1,
+                            minute: 00,
+                          ),
+                        );
 
-                          setDueDate = DateTime(due.year, due.month, due.day);
-                          _dueDateFieldController.text =
-                              Tools.getDateAndTime(setDueDate).toString();
-                          validateAndSave();
-                        });
+                        if (time != null) {
+                          setState(() {
+                            widget.startDate = DateTime(due.year, due.month,
+                                due.day, time.hour, time.minute);
+                            _startDateFieldController.text =
+                                Tools.getDateAndTime(widget.startDate)
+                                    .toString();
+                            validateAndSave();
+                          });
+                        } else {
+                          setState(() {
+                            widget.startDate =
+                                DateTime(due.year, due.month, due.day);
+                            _startDateFieldController.text =
+                                Tools.getDateAndTime(widget.startDate)
+                                    .toString();
+                            validateAndSave();
+                          });
+                        }
                       }
-                    }
-                  },
-                  child: Container(
-                    height: 60,
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: Card(
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                            side: BorderSide(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(4.0)),
-                        color: Colors.white,
-                        child: Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.symmetric(horizontal: 15.0),
-                          child: IgnorePointer(
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    alignment: Alignment.centerLeft,
-                                    child: TextFormField(
-                                      controller: _dueDateFieldController,
-                                      validator: EndDateFieldValidator.validate,
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400),
-                                      decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          focusedBorder: InputBorder.none,
-                                          enabledBorder: InputBorder.none,
-                                          errorBorder: InputBorder.none,
-                                          disabledBorder: InputBorder.none,
-                                          hintText: "Select a date",
-                                          hintStyle: kPlaceholderStyle),
+                    },
+                    child: Container(
+                      height: 60,
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Card(
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                              side: BorderSide(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(4.0)),
+                          color: Colors.white,
+                          child: Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.symmetric(horizontal: 15.0),
+                            child: IgnorePointer(
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                      alignment: Alignment.centerLeft,
+                                      child: TextFormField(
+                                        controller: _startDateFieldController,
+                                        validator:
+                                            StartDateFieldValidator.validate,
+                                        style: kSelectADateStyle,
+                                        decoration: InputDecoration(
+                                            hintText: "Select a date",
+                                            border: InputBorder.none,
+                                            focusedBorder: InputBorder.none,
+                                            enabledBorder: InputBorder.none,
+                                            errorBorder: InputBorder.none,
+                                            disabledBorder: InputBorder.none,
+                                            hintStyle: kPlaceholderStyle),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Container(
-                                    width: 30,
-                                    child: Icon(Icons.arrow_drop_down)),
-                              ],
+                                  Container(
+                                      width: 30,
+                                      child: Icon(Icons.arrow_drop_down)),
+                                ],
+                              ),
                             ),
-                          ),
-                        )),
+                          )),
+                    ),
                   ),
-                ),
-              ],
+                  // END DATE
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                    width: double.infinity,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Estimate End Date',
+                      style: kTitleStyle,
+                    ),
+                  ),
+                  InkWell(
+                    key: Key('endDate'),
+                    onTap: () async {
+                      final DateTime due = await showDatePicker(
+                        context: context,
+                        firstDate: DateTime(
+                          widget.today.year,
+                          widget.today.month,
+                          widget.today.day,
+                        ),
+                        lastDate: DateTime(widget.today.year + 2, 12, 31),
+                        initialDate: widget.task?.dueDate ?? widget.today,
+                        builder: (BuildContext context, Widget child) {
+                          return Theme(
+                            data: ThemeData.light(),
+                            child: child,
+                          );
+                        },
+                      );
+
+                      if (due != null) {
+                        final TimeOfDay time = await showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay(
+                            hour: TimeOfDay.now().hour + 1,
+                            minute: 00,
+                          ),
+                        );
+
+                        if (time != null) {
+                          setState(() {
+                            widget.dueDate = DateTime(due.year, due.month,
+                                due.day, time.hour, time.minute);
+                            _dueDateFieldController.text =
+                                Tools.getDateAndTime(widget.dueDate).toString();
+                            validateAndSave();
+                          });
+                        } else {
+                          setState(() {
+                            DateTime setDueDate =
+                                widget.task?.dueDate ?? widget.dueDate;
+
+                            setDueDate = DateTime(due.year, due.month, due.day);
+                            _dueDateFieldController.text =
+                                Tools.getDateAndTime(setDueDate).toString();
+                            validateAndSave();
+                          });
+                        }
+                      }
+                    },
+                    child: Container(
+                      height: 60,
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Card(
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                              side: BorderSide(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(4.0)),
+                          color: Colors.white,
+                          child: Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.symmetric(horizontal: 15.0),
+                            child: IgnorePointer(
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                      alignment: Alignment.centerLeft,
+                                      child: TextFormField(
+                                        controller: _dueDateFieldController,
+                                        validator:
+                                            EndDateFieldValidator.validate,
+                                        style: kSelectADateStyle,
+                                        decoration: InputDecoration(
+                                            border: InputBorder.none,
+                                            focusedBorder: InputBorder.none,
+                                            enabledBorder: InputBorder.none,
+                                            errorBorder: InputBorder.none,
+                                            disabledBorder: InputBorder.none,
+                                            hintText: "Select a date",
+                                            hintStyle: kPlaceholderStyle),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                      width: 30,
+                                      child: Icon(Icons.arrow_drop_down)),
+                                ],
+                              ),
+                            ),
+                          )),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -377,7 +379,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
             width: double.infinity,
             color: Colors.black,
             child: Text(widget.task == null ? 'Create Now' : 'Save',
-                style: TextStyle(color: Colors.white, fontSize: 20.0)),
+                style: kCreateStyle),
           ),
         ));
   }

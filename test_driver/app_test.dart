@@ -3,7 +3,7 @@ import 'package:flutter_todolist/widgets/twelveFormatTime.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('flutter to-do list', () {
+  group('flutter driver to-do list', () {
     FlutterDriver driver;
 
     setUpAll(() async {
@@ -24,10 +24,13 @@ void main() {
     var getHour = DateTime.now().hour + 1;
     var hour = TwelveFormatTime.setHour(getHour);
     final card = find.byValueKey('card');
+    final checkbox = find.byValueKey('checkbox');
 
     test('create To-Do list', () async {
       //add To-do List
       await driver.tap(floatingButton);
+      await driver.tap(textfield);
+      await Future.delayed(Duration(seconds: 1));
       await driver.tap(textfield);
       await Future.delayed(Duration(seconds: 1));
       await driver.enterText("Add etiqa");
@@ -57,6 +60,8 @@ void main() {
       await driver.tap(card);
       await driver.tap(textfield);
       await Future.delayed(Duration(seconds: 1));
+      await driver.tap(textfield);
+      await Future.delayed(Duration(seconds: 1));
       await driver.enterText("Edit etiqa");
       await Future.delayed(Duration(seconds: 1));
       await driver.waitFor(startDate);
@@ -80,6 +85,13 @@ void main() {
       await Future.delayed(Duration(seconds: 1));
       await driver.tap(create);
 
+      //checkbox
+      await Future.delayed(Duration(seconds: 1));
+      await driver.tap(checkbox);
+      await Future.delayed(Duration(seconds: 1));
+      await driver.tap(checkbox);
+
+      //delete
       await Future.delayed(Duration(seconds: 1));
       await driver.scroll(card, -400, 0, Duration(milliseconds: 500));
       await Future.delayed(Duration(seconds: 1));

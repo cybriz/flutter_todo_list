@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_todolist/common/styles.dart';
 import 'package:provider/provider.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
@@ -27,6 +28,11 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     MaterialColor colorCustom = MaterialColor(0xFFFCAF00, kCustomColors);
 
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+
     return MultiProvider(
       providers: [
         Provider<AppDatabase>.value(
@@ -36,8 +42,10 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         title: 'flutter_todolist',
         theme: ThemeData(
+          textSelectionHandleColor: colorCustom,
+          textSelectionColor: colorCustom.withOpacity(0.5),
           primarySwatch: colorCustom,
-          accentColor: const Color(0xFFE94818),
+          accentColor: Color(0xFFE94818),
           brightness: Brightness.light,
           scaffoldBackgroundColor: Colors.white,
         ),

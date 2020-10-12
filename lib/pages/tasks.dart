@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_todolist/common/styles.dart';
 import 'package:flutter_todolist/common/tools.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_todolist/database/database.dart';
@@ -126,9 +127,7 @@ class _TasksPageState extends State<TasksPage> {
                                             children: [
                                               Text(
                                                 'Start Date',
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: Colors.grey),
+                                                style: kDateTitleStyle,
                                               ),
                                               Text(Tools.formattedDate(snapshot
                                                   .data[index].startDate)),
@@ -144,9 +143,7 @@ class _TasksPageState extends State<TasksPage> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text('End Date',
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      color: Colors.grey)),
+                                                  style: kDateTitleStyle),
                                               Text(Tools.formattedDate(snapshot
                                                   .data[index].dueDate)),
                                             ],
@@ -161,9 +158,7 @@ class _TasksPageState extends State<TasksPage> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text('Time Left',
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      color: Colors.grey)),
+                                                  style: kDateTitleStyle),
                                               Container(
                                                 width: MediaQuery.of(context)
                                                         .size
@@ -238,18 +233,12 @@ class _TasksPageState extends State<TasksPage> {
                                           Row(
                                             children: [
                                               Text('Status: ',
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      color: Colors.grey)),
+                                                  style: kStatusStyle),
                                               Text(
                                                 snapshot.data[index].completed
                                                     ? 'Completed'
                                                     : 'Incomplete',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 15,
-                                                  color: Colors.black87,
-                                                ),
+                                                style: kStatusFieldStyle,
                                               )
                                             ],
                                           ),
@@ -285,9 +274,7 @@ class _TasksPageState extends State<TasksPage> {
                   });
             } else {
               return Center(
-                child: Text("No tasks yet",
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+                child: Text("No tasks yet", style: kNoTaskStyle),
               );
             }
           } else {

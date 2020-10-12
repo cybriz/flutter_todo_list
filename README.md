@@ -31,7 +31,7 @@ RUNNER(ios): https://drive.google.com/file/d/1XdmIAyK42pZYTpdapjt6l7M7Zohcj95y/v
    to run the unit test. The result will be shown in the terminal.
 ![](screenshots/unit_test.png)
 
-- [Integration Test] Copy paste and enter (flutter drive --target=test_driver/app.dart) command in the terminal in order to run the integration test.
+- [Integration Test] Copy paste (flutter drive --target=test_driver/app.dart) command in the terminal and press 'enter' in order to run the integration test.
 
 ## Screenshots
 - Uses Codemagic CI/CD

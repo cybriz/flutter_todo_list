@@ -16,6 +16,19 @@ const kTextField = TextStyle(
   fontWeight: FontWeight.w400,
   color: Colors.black54,
 );
+const kStatusFieldStyle = TextStyle(
+  fontWeight: FontWeight.w700,
+  fontSize: 15,
+  color: Colors.black87,
+);
+const kStatusStyle =
+    TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey);
+const kCreateStyle =
+    TextStyle(color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.w500);
+const kSelectADateStyle = TextStyle(fontSize: 12, fontWeight: FontWeight.w400);
+const kDateTitleStyle = TextStyle(fontSize: 14, color: Colors.grey);
+const kNoTaskStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.w600);
+
 Map<int, Color> kCustomColors = {
   50: Color.fromRGBO(136, 14, 79, .1),
   100: Color.fromRGBO(136, 14, 79, .2),

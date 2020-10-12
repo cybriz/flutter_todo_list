@@ -16,6 +16,7 @@ class _SquareCheckBoxState extends State<SquareCheckBox> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+        key: Key('checkbox'),
         onTap: () {
           widget.onChange(!widget.checked);
         },
@@ -35,6 +36,7 @@ class _SquareCheckBoxState extends State<SquareCheckBox> {
             : Container(
                 height: 14,
                 width: 14,
+                padding: EdgeInsets.all(10.0),
                 decoration: BoxDecoration(
                   border: Border.all(
                     width: 1.0,
